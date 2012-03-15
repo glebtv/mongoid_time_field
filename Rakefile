@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "mongoid_time_field"
   gem.homepage = "http://github.com/glebtv/mongoid_time_field"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{hh:mm or mm:ss time field for mongoid}
+  gem.description = %Q{hh:mm or mm:ss time field for mongoid}
   gem.email = "glebtv@gmail.com"
   gem.authors = ["glebtv"]
   # dependencies defined in Gemfile
