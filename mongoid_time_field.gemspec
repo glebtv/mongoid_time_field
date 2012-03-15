@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/mongoid_time_field.rb",
+    "mongoid_time_field.gemspec",
     "spec/spec_helper.rb",
     "spec/support/dummy_time.rb",
     "spec/time_spec.rb"
