@@ -1,6 +1,26 @@
 = mongoid_time_field
+    Simple gem to store minutes+seconds or hours+minutes in one integer field in mongoid (as you would do in mysql with time field)
 
-Description goes here.
+== Installation
+
+Include the gem in your Gemfile
+
+    gem 'mongoid_time_field'
+    
+== Usage
+
+    class DummyTime
+      include Mongoid::Document
+      include Mongoid::TimeField
+      
+      field :description
+      
+      time_field :open, :close
+
+    end
+    
+All time values are converted and stored in mongodb as seconds.
+
 
 == Contributing to mongoid_time_field
  

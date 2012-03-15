@@ -1,5 +1,3 @@
-require 'money'
-
 module Mongoid
   module TimeField
     extend ActiveSupport::Concern
@@ -7,14 +5,15 @@ module Mongoid
       def time_field(*columns)
         [columns].flatten.each do |name|
           attr = name.to_sym
-          field attr,    type: Integer, default: 0
+          field attr, type: Integer
+          
           define_method(name) do
             seconds = read_attribute(attr)
             if seconds.nil?
               nil
             else
               minutes = (seconds / 60).to_i
-              sprintf("%2d:%2d", minutes, (seconds - 60 * minutes))
+              sprintf("%d:%02d", minutes, (seconds - 60 * minutes))
             end
           end
 
@@ -24,8 +23,9 @@ module Mongoid
               nil
             else
               minutes, seconds = value.split(/:/)
-              write_attribute(attr, seconds + minutes * 60)
-              seconds
+              val = seconds.to_i + (minutes.to_i * 60)
+              write_attribute(attr, val)
+              value
             end
           end
         end
