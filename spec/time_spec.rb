@@ -16,6 +16,23 @@ describe Mongoid::TimeField do
       dummy.save.should eq true
       dummy.open.should eq '11:01'
     end
+    
+    it 'should handle blank values set as time' do
+      dummy = DummyTime.new
+      dummy.open = ''
+      dummy.save.should eq true
+      dummy.open.should be_nil
+      dummy.open_minutes.should be_nil
+    end
+
+    it 'should handle blank values set as minutes' do
+      dummy = DummyTime.new
+      dummy.open_minutes = ''
+      dummy.save.should eq true
+      dummy.open.should be_nil
+      dummy.open_minutes.should be_nil
+    end
+    
   end
   
   describe 'when accessing a document from the datastore with a TimeField datatype' do
@@ -27,7 +44,29 @@ describe Mongoid::TimeField do
       dummy = DummyTime.first
       dummy.open.should eq '12:34'
     end
+    
+    it 'should have a minutes field value equal to what was initially persisted as time' do
+      dummy = DummyTime.first
+      dummy.open_minutes.should eq 754
+    end
   end
+
+  describe 'when accessing a document from the datastore with a TimeField datatype as integer minutes' do
+    before(:each) do
+      DummyTime.create(:description => "Test", :open_minutes => 754)
+    end
+    
+    it 'should have a time field value that matches the TimeField value that was initially persisted' do
+      dummy = DummyTime.first
+      dummy.open.should eq '12:34'
+    end
+    
+    it 'should have a minutes field value equal to what was initially persisted as time' do
+      dummy = DummyTime.first
+      dummy.open_minutes.should eq 754
+    end
+  end
+
   
   describe 'when accessing a document from the datastore with a TimeField datatype and empty value' do
     before(:each) do

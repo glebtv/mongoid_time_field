@@ -1,5 +1,6 @@
 = mongoid_time_field
-    Simple gem to store minutes+seconds or hours+minutes in one integer field in mongoid (as you would do in mysql with time field)
+
+Simple gem to store minutes+seconds or hours+minutes in one integer field in mongoid (as you would do in mysql with time field)
 
 == Installation
 
