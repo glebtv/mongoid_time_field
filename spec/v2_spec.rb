@@ -30,6 +30,7 @@ describe Mongoid::TimeField do
       DummyV2.where(open: {'$gt' => '10:05'}).count.should eq 1
       DummyV2.where(open: '10:05').first.id.should eq second.id
       DummyV2.where(open: '11:00').first.id.should eq last.id
+      DummyV2.where(open: last.open).first.id.should eq last.id
     end
 
     it 'has proper inspect' do
@@ -146,6 +147,29 @@ describe Mongoid::TimeField do
       dummy.duration.should eq '120:00'
       dummy.duration.seconds.should eq (120 * 60)
       dummy.duration.minutes.should eq 120
+    end
+
+    it 'HH:MM handles more hours' do
+      dummy = DummyV2.new
+      dummy.worktime = '121:00'
+      dummy.save.should eq true
+      dummy.worktime.should eq '121:00'
+    end
+
+    it 'HH:MM:SS handles more hours' do
+      dummy = DummyV2.new
+      dummy.time_of_day = '120:00:00'
+      dummy.save.should eq true
+      dummy.time_of_day.should eq '120:00:00'
+      dummy.time_of_day.minutes.should eq (120 * 60)
+    end
+
+    it 'HH:MM:SS normalizes' do
+      dummy = DummyV2.new
+      dummy.time_of_day = '1:70:00'
+      dummy.save.should eq true
+      dummy.time_of_day.should eq '02:10:00'
+      dummy.time_of_day.minutes.should eq (130)
     end
   end
 end
