@@ -111,6 +111,41 @@ describe Mongoid::TimeField do
       dummy = DummyV2.first
       dummy.close.should eq '2:33'
     end
+  end
 
+  describe 'formats' do
+    it 'works with HH:MM' do
+      dummy = DummyV2.new
+      dummy.worktime = '1:00'
+      dummy.save.should eq true
+      dummy.worktime.should eq '01:00'
+    end
+
+    it 'works with HH:MM:SS' do
+      dummy = DummyV2.new
+      dummy.time_of_day = '1:00'
+      dummy.save.should eq true
+      dummy.time_of_day.should eq '00:01:00'
+      dummy.time_of_day.seconds.should eq 60
+      dummy.time_of_day.minutes.should eq 1
+    end
+
+    it 'works with mm:SS' do
+      dummy = DummyV2.new
+      dummy.duration = '1:00'
+      dummy.save.should eq true
+      dummy.duration.should eq '1:00'
+      dummy.duration.seconds.should eq 60
+      dummy.duration.minutes.should eq 1
+    end
+
+    it 'mm:SS handles more minutes' do
+      dummy = DummyV2.new
+      dummy.duration = '120:00'
+      dummy.save.should eq true
+      dummy.duration.should eq '120:00'
+      dummy.duration.seconds.should eq (120 * 60)
+      dummy.duration.minutes.should eq 120
+    end
   end
 end

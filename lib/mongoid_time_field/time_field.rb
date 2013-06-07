@@ -3,26 +3,17 @@ class TimeField
     @options = options
 
     @options[:format] = 'mm:SS' unless options[:format]
-
     @options[:regexp] = build_regexp(options[:format]) unless options[:regexp]
-    unless options[:strftime]
-      @options[:strftime] = options[:format]
-      @options[:strftime].gsub!('HH', '%H')
-      @options[:strftime].gsub!('hh', '%-H')
-      @options[:strftime].gsub!('MM', '%M')
-      @options[:strftime].gsub!('mm', '%-M')
-      @options[:strftime].gsub!('SS', '%S')
-    end
   end
 
   def build_regexp(format)
-    s = Regexp.escape(format)
+    s = '^' + Regexp.escape(format) + '$'
     s.gsub!(':', ':?')
     s.gsub!('-', '-?')
     s.gsub!('_', '_?')
 
-    s.gsub!('HH', '(?<h>\d*)')
-    s.gsub!('hh', '(?<h>\d*)')
+    s.gsub!('HH', '(?<h>\d*?)')
+    s.gsub!('hh', '(?<h>\d*?)')
     s.gsub!('MM', '(?<m>\d*)')
     s.gsub!('mm', '(?<m>\d*)')
     s.gsub!('SS', '(?<s>\d*)')

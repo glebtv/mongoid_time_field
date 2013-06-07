@@ -13,7 +13,38 @@ module Mongoid::TimeField
     end
 
     def to_s
-      @seconds.nil? ? nil : Time.at(@seconds).utc.strftime(@options[:strftime])
+      # @seconds.nil? ? nil : Time.at(@seconds).utc.strftime(@options[:strftime])
+
+      if @seconds.nil?
+        nil
+      else
+        format = @options[:format]
+
+        fm, ss = @seconds.divmod(60)
+        hh, mm = fm.divmod(60)
+
+        if format.match(/hh/i).nil?
+          replaces = {
+            'mm' => fm,
+            'MM' => fm.to_s.rjust(2, '0'),
+            'SS' => ss.to_s.rjust(2, '0'),
+          }
+          format.gsub(/(mm|MM|SS)/) do |match|
+            replaces[match]
+          end
+        else
+          replaces = {
+            'hh' => hh,
+            'HH' => hh.to_s.rjust(2, '0'),
+            'mm' => mm,
+            'MM' => mm.to_s.rjust(2, '0'),
+            'SS' => ss.to_s.rjust(2, '0'),
+          }
+          format.gsub(/(hh|HH|mm|MM|SS)/) do |match|
+            replaces[match]
+          end
+        end
+      end
     end
     alias_method :to_str, :to_s
 

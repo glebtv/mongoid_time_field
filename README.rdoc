@@ -7,21 +7,18 @@ Simple gem to store minutes+seconds or hours+minutes in one integer field in mon
 Include the gem in your Gemfile
 
     gem 'mongoid_time_field'
-    
+
 == Usage
 
     class DummyTime
       include Mongoid::Document
-      include Mongoid::TimeField
-      
-      field :description
-      
-      time_field :open, :close
 
+      field :worktime, type: TimeField.new(format: 'HH:MM')
+      field :time_of_day, type: TimeField.new(format: 'HH:MM:SS')
+      field :duration, type: TimeField.new(format: 'mm:SS')
     end
-    
-All time values are converted and stored in mongodb as seconds.
 
+All time values are converted and stored in mongodb as seconds.
 
 == Contributing to mongoid_time_field
  
@@ -35,6 +32,5 @@ All time values are converted and stored in mongodb as seconds.
 
 == Copyright
 
-Copyright (c) 2012 glebtv. See LICENSE.txt for
-further details.
+Copyright (c) 2012-2013 glebtv. See LICENSE.txt for further details.
 
