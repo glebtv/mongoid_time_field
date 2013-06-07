@@ -14,10 +14,10 @@ require 'mongoid_time_field'
 # in ./support/ and its subdirectories.
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
-
-
-Mongoid.config.master = Mongo::Connection.new.db("mongoid_time_field_test")
-Mongoid.logger = Logger.new($stdout)
+Mongoid.configure do |config|
+  ENV["MONGOID_ENV"] = "test"
+  Mongoid.load!("spec/support/mongoid.yml")
+end
 
 DatabaseCleaner.orm = "mongoid"
 
