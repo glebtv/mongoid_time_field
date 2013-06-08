@@ -26,14 +26,18 @@ class TimeField
       nil
     else
       match = @options[:regexp].match(value)
-      seconds = 0
-      names = match.names
+      if match.nil?
+        nil
+      else
+        seconds = 0
+        names = match.names
 
-      seconds += match['s'].to_i        if names.include?('s')
-      seconds += match['m'].to_i * 60   if names.include?('m')
-      seconds += match['h'].to_i * 3600 if names.include?('h')
+        seconds += match['s'].to_i        if names.include?('s')
+        seconds += match['m'].to_i * 60   if names.include?('m')
+        seconds += match['h'].to_i * 3600 if names.include?('h')
 
-      Mongoid::TimeField::Value.new(seconds, @options)
+        Mongoid::TimeField::Value.new(seconds, @options)
+      end
     end
   end
 

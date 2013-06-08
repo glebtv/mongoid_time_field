@@ -186,4 +186,25 @@ describe Mongoid::TimeField do
       dummy.def.should eq '2:03'
     end
   end
+
+  describe 'validation' do
+    it 'validates presence' do
+      dummy = DummyValidate.new
+      dummy.should_not be_valid
+      dummy.errors.count.should eq 1
+      dummy.errors.messages[:def][0].should eq "can't be blank"
+      dummy.save.should eq false
+    end
+
+    it 'validates numericality' do
+      dummy = DummyValidate.new
+      dummy.should_not be_valid
+      dummy.errors.count.should eq 1
+      dummy.errors.messages[:def][0].should eq "can't be blank"
+      dummy.def = '10:00'
+      dummy.should be_valid
+      dummy.errors.count.should eq 0
+      dummy.save.should eq true
+    end
+  end
 end
