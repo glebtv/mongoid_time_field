@@ -172,4 +172,18 @@ describe Mongoid::TimeField do
       dummy.time_of_day.minutes.should eq (130)
     end
   end
+
+  describe 'optional hours' do
+    it 'parses hours' do
+      dummy = DummyV2.new
+      dummy.def = '1:02:03'
+      dummy.def.should eq '1:02:03'
+    end
+
+    it 'formats without hours when no hours are present' do
+      dummy = DummyV2.new
+      dummy.def = '02:03'
+      dummy.def.should eq '2:03'
+    end
+  end
 end

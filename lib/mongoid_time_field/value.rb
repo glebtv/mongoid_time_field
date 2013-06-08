@@ -18,13 +18,22 @@ module Mongoid::TimeField
       if @seconds.nil?
         nil
       else
-        format = @options[:format]
+        format = @options[:format].dup
 
         fm, ss = @seconds.divmod(60)
         hh, mm = fm.divmod(60)
 
+        if !format.match(/hh\?/).nil?
+          if hh > 0
+            format.gsub!('hh?', 'hh')
+            format.gsub!('mm', 'MM')
+          else
+            format.gsub!(/hh\?[:\-_ ]?/, '')
+          end
+        end
+
         if format.match(/hh/i).nil?
-          replaces = {
+          replaces  = {
             'mm' => fm,
             'MM' => fm.to_s.rjust(2, '0'),
             'SS' => ss.to_s.rjust(2, '0'),
@@ -33,7 +42,7 @@ module Mongoid::TimeField
             replaces[match]
           end
         else
-          replaces = {
+          replaces  = {
             'hh' => hh,
             'HH' => hh.to_s.rjust(2, '0'),
             'mm' => mm,

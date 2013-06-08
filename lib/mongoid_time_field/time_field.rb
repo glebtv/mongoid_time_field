@@ -2,12 +2,13 @@ class TimeField
   def initialize(options = {})
     @options = options
 
-    @options[:format] = 'mm:SS' unless options[:format]
+    @options[:format] = 'hh?:mm:SS' unless options[:format]
     @options[:regexp] = build_regexp(options[:format]) unless options[:regexp]
   end
 
   def build_regexp(format)
     s = '^' + Regexp.escape(format) + '$'
+    s.gsub!('hh\?', '(?<h>\d*?)')
     s.gsub!(':', ':?')
     s.gsub!('-', '-?')
     s.gsub!('_', '_?')

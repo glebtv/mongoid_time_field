@@ -3,6 +3,8 @@ class DummyV2
 
   field :description
 
+  field :def, type: TimeField.new()
+
   field :open, type: TimeField.new(format: "hh:MM")
   field :close, type: TimeField.new(format: 'hh:MM')
 
