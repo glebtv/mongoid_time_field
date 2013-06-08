@@ -10,15 +10,13 @@ Include the gem in your Gemfile
 
 == Usage
 
-```ruby
-class DummyTime
-  include Mongoid::Document
+  class DummyTime
+    include Mongoid::Document
 
-  field :worktime, type: TimeField.new(format: 'HH:MM')
-  field :time_of_day, type: TimeField.new(format: 'HH:MM:SS')
-  field :duration, type: TimeField.new(format: 'mm:SS')
-end
-```
+    field :worktime, type: TimeField.new(format: 'HH:MM')
+    field :time_of_day, type: TimeField.new(format: 'HH:MM:SS')
+    field :duration, type: TimeField.new(format: 'mm:SS')
+  end
 
 == Format tokens:
 
