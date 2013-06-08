@@ -18,10 +18,26 @@ Include the gem in your Gemfile
       field :duration, type: TimeField.new(format: 'mm:SS')
     end
 
+== Format tokens:
+
+  SS - Seconds (always two digits)
+  MM - Minutes, zero-padded
+  mm - minutes, no padding
+  HH - hours, zero-padded to two
+  hh - hours, no padding
+  hh? - hours, displays hours only if they are present (non-zero)
+
+  Default format is 'hh?:mm:SS'.
+
+Leftmost value in format is of arbitrary length (i.e. format 'HH:MM' is not limited to 24 hours, 'mm:SS' is not limited to 60 minutes and should not overflow)
+
+== changes since v.0.1.0
+Default format for deprecated time_field syntax is 'mm:SS' for compatibility (If you stored HH:MM with 0.1.0 it should still just keep working with 'mm:SS' format, with seconds stored in DB, but if you change to new syntax and use 'HH:MM' format, you need to multiply all stored values by 60)
+
 All time values are converted and stored in mongodb as seconds.
 
 == Contributing to mongoid_time_field
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
 * Fork the project.
