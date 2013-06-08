@@ -10,13 +10,15 @@ Include the gem in your Gemfile
 
 == Usage
 
-    class DummyTime
-      include Mongoid::Document
+```ruby
+class DummyTime
+  include Mongoid::Document
 
-      field :worktime, type: TimeField.new(format: 'HH:MM')
-      field :time_of_day, type: TimeField.new(format: 'HH:MM:SS')
-      field :duration, type: TimeField.new(format: 'mm:SS')
-    end
+  field :worktime, type: TimeField.new(format: 'HH:MM')
+  field :time_of_day, type: TimeField.new(format: 'HH:MM:SS')
+  field :duration, type: TimeField.new(format: 'mm:SS')
+end
+```
 
 == Format tokens:
 
@@ -31,10 +33,10 @@ Include the gem in your Gemfile
 
 Leftmost value in format is of arbitrary length (i.e. format 'HH:MM' is not limited to 24 hours, 'mm:SS' is not limited to 60 minutes and should not overflow)
 
+All time values are converted and stored in mongodb as seconds (integer field).
+
 == changes since v.0.1.0
 Default format for deprecated time_field syntax is 'mm:SS' for compatibility (If you stored HH:MM with 0.1.0 it should still just keep working with 'mm:SS' format, with seconds stored in DB, but if you change to new syntax and use 'HH:MM' format, you need to multiply all stored values by 60)
-
-All time values are converted and stored in mongodb as seconds.
 
 == Contributing to mongoid_time_field
 
