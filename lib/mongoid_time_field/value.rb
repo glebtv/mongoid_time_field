@@ -13,8 +13,6 @@ module Mongoid::TimeField
     end
 
     def to_s
-      # @seconds.nil? ? nil : Time.at(@seconds).utc.strftime(@options[:strftime])
-
       if @seconds.nil?
         nil
       else

@@ -17,7 +17,7 @@ if Object.const_defined?("RailsAdmin")
       module Mongoid
         alias_method :type_lookup_without_time_field, :type_lookup
         def type_lookup(name, field)
-          if field.type.to_s == 'TimeField'
+          if field.type.class.name == 'TimeField'
             { :type => :time_field }
           else
             type_lookup_without_time_field(name, field)
@@ -34,8 +34,7 @@ if Object.const_defined?("RailsAdmin")
             RailsAdmin::Config::Fields::Types::register(self)
 
             register_instance_option :formatted_value do
-              p value
-              value.to_s
+              bindings[:object].send(name).to_s
             end
           end
         end
