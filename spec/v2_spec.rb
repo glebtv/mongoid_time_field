@@ -22,6 +22,19 @@ describe Mongoid::TimeField do
       dummy.save.should eq true
     end
 
+    it '#to_i' do
+      dummy = DummyV2.new
+      dummy.open = '2:00'
+      dummy.open.to_i.should eq 7200
+    end
+   
+    it 'set as int minutes in HH:MM' do
+      dummy = DummyV2.new
+      dummy.open = '120'
+      dummy.open.to_i.should eq 7200
+      dummy.open.should eq '2:00'
+    end
+
     it 'allows querying' do
       DummyV2.create!(open: '10:00')
       second = DummyV2.create!(open: '10:05')
@@ -184,6 +197,46 @@ describe Mongoid::TimeField do
       dummy = DummyV2.new
       dummy.def = '02:03'
       dummy.def.should eq '2:03'
+    end
+   
+    it '#to_i' do
+      dummy = DummyV2.new
+      dummy.def = '2:00'
+      dummy.def.to_i.should eq 120
+    end
+   
+    it 'set as int minutes in HH:MM' do
+      dummy = DummyV2.new
+      dummy.def= '120'
+      dummy.def.to_i.should eq 120
+      dummy.def.should eq '2:00'
+    end
+  end
+
+  describe 'another separator' do
+    it 'parses hours' do
+      dummy = DummyV2.new
+      dummy.sep = '1-02-03'
+      dummy.sep.should eq '1-02-03'
+    end
+
+    it 'formats without hours when no hours are present' do
+      dummy = DummyV2.new
+      dummy.sep = '02-03'
+      dummy.sep.should eq '2-03'
+    end
+   
+    it '#to_i' do
+      dummy = DummyV2.new
+      dummy.sep = '2-00'
+      dummy.sep.to_i.should eq 120
+    end
+   
+    it 'set as int minutes in HH:MM' do
+      dummy = DummyV2.new
+      dummy.sep = '120'
+      dummy.sep.to_i.should eq 120
+      dummy.sep.should eq '2-00'
     end
   end
 

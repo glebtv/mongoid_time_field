@@ -4,6 +4,7 @@ class DummyV2
   field :description
 
   field :def, type: TimeField.new()
+  field :sep, type: TimeField.new(format: 'hh?-mm-SS')
 
   field :open, type: TimeField.new(format: "hh:MM")
   field :close, type: TimeField.new(format: 'hh:MM')

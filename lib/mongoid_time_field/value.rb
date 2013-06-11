@@ -11,6 +11,8 @@ module Mongoid::TimeField
 
       @options = options
     end
+    
+    alias_method :to_i, :seconds
 
     def to_s
       if @seconds.nil?

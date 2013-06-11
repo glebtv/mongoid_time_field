@@ -24,8 +24,14 @@ class TimeField
   def parse(value)
     if value.blank?
       nil
+    elsif value.to_i.to_s == value
+      if @options[:format].index('SS').nil?
+        Mongoid::TimeField::Value.new(value.to_i * 60, @options)
+      else
+        Mongoid::TimeField::Value.new(value.to_i, @options)
+      end
     else
-      match = @options[:regexp].match(value)
+      match = @options[:regexp].match(value.strip)
       if match.nil?
         nil
       else
