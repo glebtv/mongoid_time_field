@@ -56,6 +56,8 @@ class TimeField
       case object
         when String then parse(object)
         when Integer then Mongoid::TimeField::Value.new(object, @options)
+        when Fixnum then Mongoid::TimeField::Value.new(object, @options)
+        else object
       end
     end
   end
