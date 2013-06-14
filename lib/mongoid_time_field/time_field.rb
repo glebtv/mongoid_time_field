@@ -53,7 +53,10 @@ class TimeField
     if object.nil?
       nil
     else
-      Mongoid::TimeField::Value.new(object, @options)
+      case object
+        when String then parse(object)
+        when Integer then Mongoid::TimeField::Value.new(object, @options)
+      end
     end
   end
 
