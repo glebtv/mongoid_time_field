@@ -34,7 +34,7 @@ if Object.const_defined?("RailsAdmin")
             RailsAdmin::Config::Fields::Types::register(self)
 
             register_instance_option :pretty_value do
-              bindings[:object].send(name, 'test').to_s
+              bindings[:object].send(name).to_s
             end
 
             register_instance_option :formatted_value do
