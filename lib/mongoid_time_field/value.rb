@@ -14,6 +14,10 @@ module Mongoid::TimeField
     
     alias_method :to_i, :seconds
 
+    def __bson_dump__(io, key)
+      seconds.__bson_dump__(io, key)
+    end
+
     def to_s
       if @seconds.nil?
         nil
