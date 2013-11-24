@@ -260,4 +260,31 @@ describe Mongoid::TimeField do
       dummy.save.should eq true
     end
   end
+
+  describe 'HH:MM' do
+    it 'stores properly' do
+      h = DummyHhmm.create!(t: '12:30')
+      h.t.should eq '12:30'
+      h.t.to_i.should eq ( (12 * 60) + 30) * 60
+      h.reload
+      h.t.should eq '12:30'
+      h.t.to_i.should eq ( (12 * 60) + 30) * 60
+    end
+
+    it 'validates' do
+      h = DummyHhmm.new(t: '24:30')
+      h.valid?.should be_false
+      h = DummyHhmm.new(t: '23:30')
+      h.valid?.should be_true
+    end
+  end
+
+  describe 'Value' do
+    it 'does compare' do
+      opt = {format: 'mm:SS'}
+      Mongoid::TimeField::Value.new(120, opt).to_s.should eq '2:00'
+      (Mongoid::TimeField::Value.new(120, opt) > Mongoid::TimeField::Value.new(119, opt)).should be_true
+    end
+
+  end
 end

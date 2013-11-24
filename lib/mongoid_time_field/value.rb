@@ -18,6 +18,10 @@ module Mongoid::TimeField
       seconds.__bson_dump__(io, key)
     end
 
+    def format
+      @options[:format].dup
+    end
+
     def to_s
       if @seconds.nil?
         nil
@@ -71,6 +75,16 @@ module Mongoid::TimeField
 
     def inspect
       '"' + to_s + '"'
+    end
+
+    def >(x)
+      raise ArgumentError, 'Argument is not Mongoid::TimeField::Value' unless x.is_a? Mongoid::TimeField::Value
+      @seconds > x.seconds
+    end
+
+    def <(x)
+      raise ArgumentError, 'Argument is not Mongoid::TimeField::Value' unless x.is_a? Mongoid::TimeField::Value
+      @seconds < x.seconds
     end
 
     def coerce(something)
