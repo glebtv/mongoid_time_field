@@ -265,9 +265,11 @@ describe Mongoid::TimeField do
     it 'stores properly' do
       h = DummyHhmm.create!(t: '12:30')
       h.t.should eq '12:30'
+      h.t.to_s.should eq '12:30'
       h.t.to_i.should eq ( (12 * 60) + 30) * 60
       h.reload
       h.t.should eq '12:30'
+      h.t.to_s.should eq '12:30'
       h.t.to_i.should eq ( (12 * 60) + 30) * 60
     end
 
