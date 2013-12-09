@@ -13,9 +13,39 @@ describe Mongoid::TimeField do
       dummy.open_minutes.should eq 600
     end
   end
-
+  describe 'iso8601' do
+    it 'hh:mm' do
+      dummy = DummyV2.new
+      dummy.open = '10:00'
+      dummy.open.iso8601.should eq 'PT10H'
+    end
+    it 'seconds' do
+      dummy = DummyV2.new
+      dummy.open = '10:10'
+      dummy.open.iso8601.should eq 'PT10H10M'
+    end
+    it 'hh:mm' do
+      dummy = DummyV2.new
+      dummy.def = '10:00'
+      dummy.def.iso8601.should eq 'PT10M'
+    end
+    it 'seconds' do
+      dummy = DummyV2.new
+      dummy.def = '10:10'
+      dummy.def.iso8601.should eq 'PT10M10S'
+    end
+    it 'date' do
+      dummy = DummyV2.new
+      dummy.open = '12000:00'
+      dummy.open.iso8601.should eq 'P1Y4M13DT8H'
+    end
+    it 'date' do
+      dummy = DummyV2.new
+      dummy.def = '120:00:00'
+      dummy.def.iso8601.should eq 'P5D'
+    end
+  end
   describe 'datatype' do
-
     it 'is persisted normally' do
       dummy = DummyV2.new
       dummy.open = '10:00'

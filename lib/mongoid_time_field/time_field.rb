@@ -65,7 +65,7 @@ class TimeField
   # Takes any possible object and converts it to how it would be
   # stored in the database.
   def mongoize(object)
-    case object
+    case object 
     when Mongoid::TimeField::Value then object.mongoize
     when String then parse(object).mongoize
     else object

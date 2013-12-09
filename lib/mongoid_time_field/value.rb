@@ -1,5 +1,8 @@
 module Mongoid::TimeField
   class Value
+    YEARS_FACTOR = ((365 * 303 + 366 * 97) / 400) * 86400
+    MONTHS_FACTOR = (((365 * 303 + 366 * 97) / 400) * 86400) / 12
+
     attr_accessor :seconds
 
     def initialize(seconds, options = {})
@@ -64,6 +67,30 @@ module Mongoid::TimeField
       end
     end
     alias_method :to_str, :to_s
+
+    # source: https://github.com/arnau/ISO8601/blob/master/lib/iso8601/duration.rb (MIT)
+    def iso8601
+      duration = @seconds
+      sign = '-' if (duration < 0)
+      duration = duration.abs
+      years, y_mod = (duration / YEARS_FACTOR).to_i, (duration % YEARS_FACTOR)
+      months, m_mod = (y_mod / MONTHS_FACTOR).to_i, (y_mod % MONTHS_FACTOR)
+      days, d_mod = (m_mod / 86400).to_i, (m_mod % 86400)
+      hours, h_mod = (d_mod / 3600).to_i, (d_mod % 3600)
+      minutes, mi_mod = (h_mod / 60).to_i, (h_mod % 60)
+      seconds = mi_mod.div(1) == mi_mod ? mi_mod.to_i : mi_mod.to_f # Coerce to Integer when needed (`PT1S` instead of `PT1.0S`)
+
+      seconds = (seconds != 0 or (years == 0 and months == 0 and days == 0 and hours == 0 and minutes == 0)) ? "#{seconds}S" : ""
+      minutes = (minutes != 0) ? "#{minutes}M" : ""
+      hours = (hours != 0) ? "#{hours}H" : ""
+      days = (days != 0) ? "#{days}D" : ""
+      months = (months != 0) ? "#{months}M" : ""
+      years = (years != 0) ? "#{years}Y" : ""
+
+      date = %[#{sign}P#{years}#{months}#{days}]
+      time = (hours != "" or minutes != "" or seconds != "") ? %[T#{hours}#{minutes}#{seconds}] : ""
+      date + time
+    end
 
     def minutes
       @seconds / 60
