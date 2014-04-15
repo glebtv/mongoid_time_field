@@ -1,19 +1,31 @@
 require 'rails_admin/adapters/mongoid'
 require 'rails_admin/config/fields/types/text'
+
+require 'rails_admin/adapters/mongoid'
+begin
+  require 'rails_admin/adapters/mongoid/property'
+rescue Exception => e 
+end
+
 module RailsAdmin
   module Adapters
     module Mongoid
-      alias_method :type_lookup_without_time_field, :type_lookup
-      def type_lookup(name, field)
-        if field.type.class.name == 'TimeField' || field.type.to_s == 'TimeField'
-          { :type => :time_field }
-        else
-          type_lookup_without_time_field(name, field)
+      class Property
+        alias_method :type_without_time_field, :type
+        def type(name, field)
+          if field.type.class.name == 'TimeField' || field.type.to_s == 'TimeField'
+            { :type => :time_field }
+          else
+            type_without_time_field(name, field)
+          end
         end
       end
     end
   end
+end
 
+
+module RailsAdmin
   module Config
     module Fields
       module Types
