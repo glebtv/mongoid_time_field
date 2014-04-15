@@ -2,6 +2,8 @@
 
 Simple gem to store minutes+seconds or hours+minutes in one integer field in mongoid (as you would do in mysql with time field)
 
+{<img src="https://travis-ci.org/glebtv/mongoid_time_field.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/glebtv/mongoid_time_field]
+
 == Installation
 
 Include the gem in your Gemfile
