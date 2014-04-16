@@ -12,11 +12,11 @@ module RailsAdmin
     module Mongoid
       class Property
         alias_method :type_without_time_field, :type
-        def type(name, field)
-          if field.type.class.name == 'TimeField' || field.type.to_s == 'TimeField'
-            { :type => :time_field }
+        def type
+          if property.type.class.name == 'TimeField' || property.type.to_s == 'TimeField'
+            :time_field
           else
-            type_without_time_field(name, field)
+            type_without_time_field
           end
         end
       end
