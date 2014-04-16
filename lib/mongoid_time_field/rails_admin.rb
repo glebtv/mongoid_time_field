@@ -1,7 +1,4 @@
 require 'rails_admin/adapters/mongoid'
-require 'rails_admin/config/fields/types/text'
-
-require 'rails_admin/adapters/mongoid'
 begin
   require 'rails_admin/adapters/mongoid/property'
 rescue Exception => e 
@@ -24,7 +21,7 @@ module RailsAdmin
   end
 end
 
-
+require 'rails_admin/config/fields/types/string'
 module RailsAdmin
   module Config
     module Fields
